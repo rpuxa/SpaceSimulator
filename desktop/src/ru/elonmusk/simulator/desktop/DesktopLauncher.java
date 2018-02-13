@@ -5,7 +5,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import ru.elonmusk.simulator.Render;
 
 public class DesktopLauncher {
+
 	public static void main (String[] arg) {
+		System.setProperty("user.name", "seconduser");
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new Render(), config);
 	}
