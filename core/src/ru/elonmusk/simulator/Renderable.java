@@ -4,6 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public interface Renderable {
 
-    void render(SpriteBatch batch);
+    void render(SpriteBatch batch, double delta);
 
 }
