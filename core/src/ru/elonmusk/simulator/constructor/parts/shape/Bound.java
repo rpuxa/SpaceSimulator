@@ -1,7 +1,7 @@
-package ru.elonmusk.simulator.constructor.parts;
+package ru.elonmusk.simulator.constructor.parts.shape;
 
 public class Bound {
-    int[] start, end;
+    public int[] start, end;
 
     public Bound(int startX, int startY, int endX, int endY) {
         start = new int[]{startX, startY};

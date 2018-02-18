@@ -17,9 +17,17 @@ public class Part implements Renderable {
 
     public Part(TypePart type, Part parent) {
         this.type = type;
-        child = new ArrayList[type.bounds.length];
+        child = new ArrayList[type.shape.bounds.length];
         this.parent = parent;
         texture = new TextureRegion(new Texture(type.texturePath));
+    }
+
+    public Part(TypePart type, int x, int y) {
+        this.type = type;
+        child = new ArrayList[type.shape.bounds.length];
+        texture = new TextureRegion(new Texture(type.texturePath));
+        this.x = x;
+        this.y = y;
     }
 
     @Override

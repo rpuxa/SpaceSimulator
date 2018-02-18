@@ -8,10 +8,11 @@ import ru.elonmusk.simulator.constructor.parts.Part;
 
 public class SpacecraftInfo implements Renderable {
 
-    Part mainPart;
+    public Part mainPart;
 
     @Override
     public void render(SpriteBatch batch, double delta) {
-        mainPart.render(batch, delta);
+        if (mainPart != null)
+            mainPart.render(batch, delta);
     }
 }

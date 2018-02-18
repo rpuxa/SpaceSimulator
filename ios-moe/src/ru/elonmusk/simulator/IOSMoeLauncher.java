@@ -3,7 +3,6 @@ package ru.elonmusk.simulator;
 import com.badlogic.gdx.backends.iosmoe.IOSApplication;
 import com.badlogic.gdx.backends.iosmoe.IOSApplicationConfiguration;
 import org.moe.natj.general.Pointer;
-import ru.elonmusk.simulator.Render;
 
 import apple.uikit.c.UIKit;
 
@@ -17,7 +16,7 @@ public class IOSMoeLauncher extends IOSApplication.Delegate {
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
         config.useAccelerometer = false;
-        return new IOSApplication(new Render(), config);
+        return new IOSApplication(new SpaceSimulator(), config);
     }
 
     public static void main(String[] argv) {
