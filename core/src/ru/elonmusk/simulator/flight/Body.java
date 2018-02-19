@@ -1,11 +1,8 @@
 package ru.elonmusk.simulator.flight;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+public class Body {
 
-import ru.elonmusk.simulator.Renderable;
-
-public class Body implements Renderable {
-
+    Trajectory trajectory;
     double mass;
     double[] velocity;
 
@@ -14,9 +11,6 @@ public class Body implements Renderable {
         this.velocity = velocity;
     }
 
-    @Override
-    public void render(SpriteBatch batch, double delta){
 
-    }
 
 }

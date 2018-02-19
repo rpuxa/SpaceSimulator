@@ -1,37 +1,23 @@
 package ru.elonmusk.simulator.constructor.parts;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-import java.util.ArrayList;
-
-import ru.elonmusk.simulator.Renderable;
-
-public class Part implements Renderable {
+public class Part extends Group {
     TypePart type;
     TextureRegion texture;
-    int x, y;
-    ArrayList<Part>[] child;
-    Part parent;
 
-    public Part(TypePart type, Part parent) {
+    public Part(TypePart type) {
         this.type = type;
-        child = new ArrayList[type.shape.bounds.length];
-        this.parent = parent;
         texture = new TextureRegion(new Texture(type.texturePath));
-    }
-
-    public Part(TypePart type, int x, int y) {
-        this.type = type;
-        child = new ArrayList[type.shape.bounds.length];
-        texture = new TextureRegion(new Texture(type.texturePath));
-        this.x = x;
-        this.y = y;
+        setSize(type.width, type.height);
     }
 
     @Override
-    public void render(SpriteBatch batch, double delta) {
-        batch.draw(texture, x - type.width / 2, y - type.height / 2);
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }

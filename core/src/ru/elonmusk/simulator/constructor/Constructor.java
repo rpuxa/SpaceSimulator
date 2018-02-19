@@ -3,27 +3,23 @@ package ru.elonmusk.simulator.constructor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 
 public class Constructor implements Screen {
 
     private SpriteBatch batch;
-    public SpacecraftInfo spacecraft = new SpacecraftInfo();
-    Button button;
+    private Stage stage;
+    public SpacecraftEditor spacecraftEditor;
 
     public Constructor(SpriteBatch batch) {
         this.batch = batch;
-        button = new Button(new Image(new Texture("badlogic.jpg")).getDrawable(), new Image(new Texture("badlogic.jpg")).getDrawable());
-        button.setSize(100, 100);
-
-        button.addListener(event -> {
-            System.out.println("asdasdasd");
-            return false;
-        });
+        stage = new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), batch);
+        spacecraftEditor = new SpacecraftEditor();
+        stage.addActor(spacecraftEditor);
     }
 
     @Override
@@ -33,8 +29,7 @@ public class Constructor implements Screen {
     @Override
     public void render(float delta) {
         batch.begin();
-        spacecraft.render(batch, delta);
-        button.draw(batch, 1);
+        spacecraftEditor.draw(batch, 1);
         batch.end();
     }
 
