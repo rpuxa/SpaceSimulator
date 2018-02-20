@@ -22,4 +22,8 @@ public class Trajectory {
         this.incline = incline;
         this.anomaly = anomaly;
     }
+
+    public double getFocalParameter() {
+        return realAxis * (1 - eccentricity * eccentricity);
+    }
 }
