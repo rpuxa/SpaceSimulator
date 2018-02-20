@@ -20,6 +20,7 @@ public final class SpaceSimulator extends com.badlogic.gdx.Game {
 
     @Override
     public void create() {
+        Assets.load();
         instance = this;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();

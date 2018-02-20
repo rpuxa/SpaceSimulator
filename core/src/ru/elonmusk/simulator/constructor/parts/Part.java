@@ -1,9 +1,10 @@
 package ru.elonmusk.simulator.constructor.parts;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
+
+import ru.elonmusk.simulator.Assets;
 
 public class Part extends Group {
     TypePart type;
@@ -11,8 +12,8 @@ public class Part extends Group {
 
     public Part(TypePart type) {
         this.type = type;
-        texture = new TextureRegion(new Texture(type.texturePath));
         setSize(type.width, type.height);
+        texture = Assets.getTexture(type.texturePath);
     }
 
     @Override

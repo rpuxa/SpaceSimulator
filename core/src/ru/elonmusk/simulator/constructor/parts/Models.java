@@ -5,6 +5,6 @@ import ru.elonmusk.simulator.constructor.parts.types.FuelTank;
 
 public interface Models {
     //Топливные баки
-    FuelTank FL100 = new FuelTank("badlogic.jpg", new Rectangle(), 100, 200),
-            FL200 = new FuelTank("badlogic.jpg", new Rectangle(), 150, 300);
+    FuelTank FL100 = new FuelTank("bad", new Rectangle(), 100, 200),
+            FL200 = new FuelTank("bad", new Rectangle(), 150, 300);
 }
