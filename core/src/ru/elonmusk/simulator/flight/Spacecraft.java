@@ -4,7 +4,8 @@ public class Spacecraft extends Body {
 
     double fuelMass;
 
-    public Spacecraft(double mass, double fuelMass) {
+    public Spacecraft(double mass,
+                      double fuelMass) {
         super(mass);
         this.fuelMass = fuelMass;
     }
