@@ -26,9 +26,10 @@ public final class SpaceSimulator extends com.badlogic.gdx.Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
         batch.setProjectionMatrix(camera.combined);
-        space = new Space();
+        space = new Space(batch);
         constructor = new Constructor(batch);
-        setScreen(constructor);
+        //setScreen(constructor);
+        setScreen(space);
     }
 
     public void render() {

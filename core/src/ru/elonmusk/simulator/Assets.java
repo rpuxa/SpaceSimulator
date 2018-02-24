@@ -11,7 +11,8 @@ public class Assets {
 
     public static void load() {
         String[][] names = {
-                {"bad", "badlogic.jpg"}
+                {"bad", "badlogic.jpg"},
+                {"earth", "earth.png"}
         };
         for (int i = 0; i < names.length; i++) {
             textures.put(names[i][0], new TextureRegion(new Texture(names[i][1])));

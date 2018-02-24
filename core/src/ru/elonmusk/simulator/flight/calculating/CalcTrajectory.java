@@ -30,21 +30,21 @@ public final class CalcTrajectory implements Constants {
     }
 
     private static double[][] calculatePoints(Body body0, int count) {
-        Body body = new Body(body0);
-        double[][] points = new double[count][0];
-        final double tau = .001;
-        for (int i = 0; i <= 1000 * (count - 1); i++) {
-            if (i % 1000 == 0)
-                points[i / 1000] = new double[]{body.radiusVector, body.angle};
-            body.radiusVector = MathUtils.moduleOfVector(body.x - body.centralBody.x, body.y - body.centralBody.y);
-            body.angle = Math.atan2(body.y - body.centralBody.y, body.x - body.centralBody.x);
-            double a = GRAVITATIONAL_CONSTANT * body.centralBody.mass / MathUtils.sqr(body.radiusVector);
-            double[] acceleration = {Math.cos(Math.PI + body.angle) * a, Math.sin(Math.PI + body.angle) * a};
-            body.velocity[X] += acceleration[X] * tau;
-            body.velocity[Y] += acceleration[Y] * tau;
-            body.x += body.velocity[X] * tau;
-            body.y += body.velocity[Y] * tau;
-        }
-        return points;
+            Body body = new Body(body0);
+            double[][] points = new double[count][0];
+            final double tau = .001;
+            for (int i = 0; i <= 1000 * (count - 1); i++) {
+                if (i % 1000 == 0)
+                    points[i / 1000] = new double[]{body.radiusVector, body.angle};
+                body.radiusVector = MathUtils.moduleOfVector(body.x - body.centralBody.x, body.y - body.centralBody.y);
+                body.angle = Math.atan2(body.y - body.centralBody.y, body.x - body.centralBody.x);
+                double a = GRAVITATIONAL_CONSTANT * body.centralBody.mass / MathUtils.sqr(body.radiusVector);
+                double[] acceleration = {Math.cos(Math.PI + body.angle) * a, Math.sin(Math.PI + body.angle) * a};
+                body.velocity[X] += acceleration[X] * tau;
+                body.velocity[Y] += acceleration[Y] * tau;
+                body.x += body.velocity[X] * tau;
+                body.y += body.velocity[Y] * tau;
+            }
+            return points;
     }
 }
