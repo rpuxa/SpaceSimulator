@@ -1,9 +1,11 @@
 package ru.elonmusk.simulator.flight;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
 import ru.elonmusk.simulator.utils.Constants;
 import ru.elonmusk.simulator.utils.MathUtils;
 
-public class Body implements Constants {
+public class Body extends Actor implements Constants {
 
     Trajectory trajectory;
     public double x, y;
@@ -27,6 +29,12 @@ public class Body implements Constants {
         centralBody = body.centralBody;
         x = body.x;
         y = body.y;
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+
     }
 
     public double getGravityParameter() {

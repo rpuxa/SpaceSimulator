@@ -7,7 +7,7 @@ import ru.elonmusk.simulator.utils.MathUtils;
 
 public final class CalcTrajectory implements Constants {
 
-  /*  public static void main(String[] args) {
+   /* public static void main(String[] args) {
         Body body = new Body(1, new Body(1e20, null));
         body.radiusVector = 1000;
         body.x = 1000;
