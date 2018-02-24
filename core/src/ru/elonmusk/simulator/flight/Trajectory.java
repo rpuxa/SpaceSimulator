@@ -7,8 +7,8 @@ public class Trajectory {
     /** Эксцентриситет */
     double eccentricity;
 
-    /** Большая полуось */
-    double realAxis;
+    /** Фокальный параметр */
+    double focalParameter;
 
     /** Наклон большой полуоси */
     double incline;
@@ -16,14 +16,10 @@ public class Trajectory {
     /** Аномалия тела */
     double anomaly;
 
-    public Trajectory(double eccentricity, double realAxis, double incline, double anomaly) {
+    public Trajectory(double eccentricity, double focalParameter, double incline, double anomaly) {
         this.eccentricity = eccentricity;
-        this.realAxis = realAxis;
+        this.focalParameter = focalParameter;
         this.incline = incline;
         this.anomaly = anomaly;
-    }
-
-    public double getFocalParameter() {
-        return realAxis * (1 - eccentricity * eccentricity);
     }
 }

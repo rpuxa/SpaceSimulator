@@ -12,9 +12,10 @@ public class Body implements Constants {
     public double[] velocity;
     public double radiusVector, angle;
 
-    public Body(double mass) {
+    public Body(double mass, Body centralBody) {
         this.mass = mass;
         velocity = new double[2];
+        this.centralBody = centralBody;
     }
 
     public Body(Body body) {
@@ -23,6 +24,9 @@ public class Body implements Constants {
         velocity = body.velocity.clone();
         radiusVector = body.radiusVector;
         angle = body.angle;
+        centralBody = body.centralBody;
+        x = body.x;
+        y = body.y;
     }
 
     public double getGravityParameter() {
