@@ -21,6 +21,6 @@ public class Planet extends Body {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        batch.draw(texture, (float) (getX() - radius), (float) (getY() - radius));
+        batch.draw(texture, (float) (x - radius), (float) (y - radius));
     }
 }

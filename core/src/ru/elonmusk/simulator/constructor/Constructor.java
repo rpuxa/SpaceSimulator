@@ -1,19 +1,18 @@
 package ru.elonmusk.simulator.constructor;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
+import ru.elonmusk.simulator.utils.GestureListener;
+
 
 public class Constructor implements Screen {
 
     private SpriteBatch batch;
-    private OrthographicCamera camera;
     private Stage stage;
     public SpacecraftEditor spacecraftEditor;
 
@@ -23,6 +22,8 @@ public class Constructor implements Screen {
         spacecraftEditor = new SpacecraftEditor();
         stage.addActor(spacecraftEditor);
         Gdx.input.setInputProcessor(stage);
+        stage.setKeyboardFocus(spacecraftEditor);
+        stage.getRoot().addListener(new GestureListener());
     }
 
     @Override
@@ -31,8 +32,8 @@ public class Constructor implements Screen {
 
     @Override
     public void render(float delta) {
-        spacecraftEditor.draw(batch, 1);
-        spacecraftEditor.act(delta);
+        stage.draw();
+        stage.act(delta);
     }
 
     @Override

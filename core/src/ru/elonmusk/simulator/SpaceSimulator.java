@@ -28,8 +28,8 @@ public final class SpaceSimulator extends com.badlogic.gdx.Game {
         batch.setProjectionMatrix(camera.combined);
         space = new Space(batch);
         constructor = new Constructor(batch);
-        //setScreen(constructor);
-        setScreen(space);
+        setScreen(constructor);
+       // setScreen(space);
     }
 
     public void render() {

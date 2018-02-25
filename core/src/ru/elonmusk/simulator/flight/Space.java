@@ -20,6 +20,7 @@ public class Space implements Screen{
 
     public Space(SpriteBatch batch) {
         this.batch = batch;
+        bodies = new ArrayList<>();
         stage = new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()), batch);
 
         Planet sun = new Planet(1989000e24, null, null, "earth");
@@ -35,14 +36,14 @@ public class Space implements Screen{
         }
 
         Gdx.input.setInputProcessor(stage);
-        stage.getRoot().addListener(new GestureListener(new GestureListener.GestureExtendedAdapter(){
+        /*stage.getRoot().addListener(new GestureListener(new GestureListener.GestureExtendedAdapter(){
             @Override
             public boolean fling(float velocityX, float velocityY, int button) {
                 //stage.getCamera().
                 return false;
             }
             
-        }));
+        }));*/
     }
 
     @Override

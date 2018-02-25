@@ -8,6 +8,7 @@ import ru.elonmusk.simulator.utils.MathUtils;
 public class Body extends Actor implements Constants {
 
     Trajectory trajectory;
+    public double x, y;
     public Body centralBody;
     public double mass;
     public double[] velocity;
