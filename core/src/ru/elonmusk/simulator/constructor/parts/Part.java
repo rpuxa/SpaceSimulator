@@ -10,6 +10,8 @@ import ru.elonmusk.simulator.Assets;
 import ru.elonmusk.simulator.constructor.SpacecraftEditor;
 import ru.elonmusk.simulator.constructor.TouchableGroup;
 import ru.elonmusk.simulator.constructor.parts.shape.Bound;
+import ru.elonmusk.simulator.flight.Space;
+import ru.elonmusk.simulator.flight.Spacecraft;
 import ru.elonmusk.simulator.utils.Constants;
 import ru.elonmusk.simulator.utils.MathUtils;
 
@@ -30,21 +32,22 @@ public class Part extends TouchableGroup implements Constants {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         if (dragging) {
-            double[] cling = cling();
+            Cling cling = cling();
             if (cling != null) {
-                batch.draw(texture, (float) cling[0], (float) cling[1], (float) cling[2], (float) cling[3], getWidth(), getHeight(), getScaleX(), getScaleY(), (float) cling[4]);
+                double[] shift = cling.shift;
+                batch.draw(texture, (float) shift[0] + getX(), (float) shift[1] + getY(), (float) shift[2] + getOriginX(), (float) shift[3] + getY(), getWidth(), getHeight(), getScaleX(), getScaleY(), (float) shift[4]);
                 return;
             }
         }
         batch.draw(texture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
-    private double[] cling() {
+    private Cling cling() {
         ArrayList<Part> parts = editor.getAllParts(this);
         for (Part part : parts) {
             double[][] shift = shift(part);
             if (shift != null) {
-                return new double[] {shift[0][0], shift[0][1], shift[1][0], shift[1][1], shift[2][0]};
+                return new Cling(new double[]{shift[0][0], shift[0][1], shift[1][0], shift[1][1], shift[2][0]}, part);
             }
         }
         return null;
@@ -59,6 +62,23 @@ public class Part extends TouchableGroup implements Constants {
     @Override
     public boolean touchUp(float x, float y, int pointer, int button) {
         dragging = false;
+        Cling cling = cling();
+        if (cling != null) {
+            Part part = cling.part;
+            double[] shift = cling.shift;
+            float[] pos = getAbsolutePos();
+            editor.removePart(this);
+            part.addActor(this);
+            float[] parentPos = getParentAbsolutePos();
+            setX((float) shift[0] + pos[X] - parentPos[X]);
+            setY((float) shift[1] + pos[Y] - parentPos[Y]);
+        } else {
+            float[] pos = getAbsolutePos();
+            editor.removePart(this);
+            editor.addActor(this);
+            setX(pos[X]);
+            setY(pos[Y]);
+        }
         return true;
     }
 
@@ -69,10 +89,10 @@ public class Part extends TouchableGroup implements Constants {
     }
 
     /**
-    @return {shiftX, shitY}, {OriginX, OriginY}, {ShiftAngle}
+     * @return {shiftX, shitY}, {OriginX, OriginY}, {ShiftAngle}
      */
     public double[][] shift(Part part) {
-        double min = 100;
+        double min = 40;
         boolean shifted = false;
         double[][] shift = {{0, 0}, {0, 0}, {0}};
         for (Bound firstBounds : type.shape.bounds)
@@ -83,7 +103,7 @@ public class Part extends TouchableGroup implements Constants {
                         Math.atan2(second[0][Y] - second[1][Y], second[0][X] - second[1][X]));
                 if (angle > Math.toRadians(170) && angle < Math.toRadians(190))
                     for (int i = 0; i < 2; i++) {
-                        double result = MathUtils.distancePointSegment(first[i], second);
+                        double result = Math.abs(MathUtils.distancePointSegment(first[i], second));
                         if (result < min) {
                             shifted = true;
                             min = result;
@@ -94,16 +114,41 @@ public class Part extends TouchableGroup implements Constants {
                         }
                     }
             }
+
         if (shifted)
             return shift;
         else
             return null;
     }
 
+    public float[] getParentAbsolutePos() {
+        if (getParent() instanceof Part) {
+            Part part = (Part) getParent();
+            return part.getAbsolutePos();
+        }
+        if (getParent() instanceof SpacecraftEditor) {
+            return new float[] {0, 0};
+        }
+        return null;
+    }
+
+    public float[] getAbsolutePos() {
+        if (getParent() instanceof Part) {
+            Part part = (Part) getParent();
+            float[] abs = part.getAbsolutePos();
+            return new float[]{abs[0] + getX(), abs[1] + getY()};
+        }
+        if (getParent() instanceof SpacecraftEditor) {
+            return new float[]{getX(), getY()};
+        }
+        return null;
+    }
+
     private double[][] getBoundCoords(Bound bound) {
-        return new double[][] {
-                MathUtils.rotatePoint(new double[]{bound.start[0] * getWidth() + getX(), bound.start[1] * getHeight() + getY()}, new double[]{getOriginX(), getOriginY()}, getRotation()),
-                MathUtils.rotatePoint(new double[]{bound.end[0] * getWidth() + getX(), bound.end[1] * getHeight() + getY()}, new double[]{getOriginX(), getOriginY()}, getRotation()),
+        float[] pos = getAbsolutePos();
+        return new double[][]{
+                MathUtils.rotatePoint(new double[]{bound.start[0] * getWidth() + pos[X], bound.start[1] * getHeight() + pos[Y]}, new double[]{getOriginX(), getOriginY()}, getRotation()),
+                MathUtils.rotatePoint(new double[]{bound.end[0] * getWidth() + pos[X], bound.end[1] * getHeight() + pos[Y]}, new double[]{getOriginX(), getOriginY()}, getRotation()),
         };
     }
 
@@ -113,12 +158,40 @@ public class Part extends TouchableGroup implements Constants {
             return parts;
         parts.add(this);
         for (Actor part : getChildren()) {
-                parts.addAll(((Part) part).getAllParts(without));
+            parts.addAll(((Part) part).getAllParts(without));
         }
         return parts;
     }
 
     public boolean equals(Part part) {
         return part.getX() == getX() && part.getY() == getY();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Part part = (Part) o;
+
+        return equals(part);
+
+    }
+
+    public void removePart(Part part) {
+        for (Actor actor : getChildren()) {
+            ((Part) actor).removeActor(part);
+            ((Part) actor).removePart(part);
+        }
+    }
+
+    private class Cling {
+        private final double[] shift;
+        private final Part part;
+
+        Cling(double[] shift, Part part) {
+            this.shift = shift;
+            this.part = part;
+        }
     }
 }

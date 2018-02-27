@@ -3,6 +3,7 @@ package ru.elonmusk.simulator.constructor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.ArrayList;
 
@@ -18,29 +19,6 @@ public class SpacecraftEditor extends TouchableGroup {
         setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         back = Assets.getTexture("cBack");
     }
-
-    /*private GestureListener.GestureExtendedAdapter getInput() {
-        return new GestureListener.GestureExtendedAdapter() {
-            @Override
-            public boolean pan(float x, float y, float deltaX, float deltaY) {
-                InputEvent e = getInputEvent();
-
-                Part main = getMainPart();
-                if (main != null && main.hit(x - main.getX(), y - main.getY(), true) != null)
-                    return false;
-                setPosition(getX() + deltaX, getY() + deltaY);
-                return true;
-            }
-
-            @Override
-            public boolean tap(float x, float y, int count, int button) {
-
-                return false;
-            }
-
-
-        };
-    }*/
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
@@ -74,4 +52,9 @@ public class SpacecraftEditor extends TouchableGroup {
     public ArrayList<Part> getAllParts(Part without) {
         return getMainPart().getAllParts(without);
     }
+
+    public void removePart(Part part) {
+        getMainPart().removePart(part);
+    }
+
 }

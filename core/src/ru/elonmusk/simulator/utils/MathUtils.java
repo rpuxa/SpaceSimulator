@@ -22,25 +22,34 @@ public final class MathUtils implements Constants {
     }
 
     public static double[] projectionPointOnLine(double[] point, double[][] line) {
-        double a = line[1][1] - line[0][1];
-        double b = line[0][1] - line[1][0];
+        double a = line[1][Y] - line[0][Y];
+        double b = line[0][X] - line[1][X];
         double dist = distancePointLine(point, line);
-        return new double[] {point[0] - a * dist, point[1] - b * dist};
+        double angle = Math.atan2(a, b) + Math.PI / 2;
+        return new double[] {point[0] + dist * Math.cos(angle), point[1] - dist * Math.sin(angle)};
+    }
+
+    public static void main(String[] args) {
+        double[] d = projectionPointOnLine(new double[] {152, 90}, new double[][]{
+                {137, 400},
+                {137, 407}
+        });
+        System.out.println();
     }
 
     public static double distancePointSegment(double[] point, double[][] segment) {
         double[] projectionPoint = projectionPointOnLine(point, segment);
-        if (Math.abs(segment[0][Y] - segment[1][Y]) < 1e-4 || segment[0][Y] > point[Y] != segment[1][Y] > point[Y] &&
-                Math.abs(segment[0][X] - segment[1][X]) < 1e-4 || segment[0][X] > point[X] != segment[1][X] > point[X]){
+        if ((Math.abs(segment[0][Y] - segment[1][Y]) < 1e-4 || segment[0][Y] >= projectionPoint[Y] != segment[1][Y] > projectionPoint[Y]) &&
+                (Math.abs(segment[0][X] - segment[1][X]) < 1e-4 || segment[0][X] >= projectionPoint[X] != segment[1][X] > projectionPoint[X])) {
             return distancePointLine(point, segment);
         }
         return Double.POSITIVE_INFINITY;
     }
 
     public static double distancePointLine(double[] point, double[][] line) {
-        double a = line[1][1] - line[0][1];
-        double b = line[0][1] - line[1][0];
-        double c = -a * line[0][0] - b * line[0][1];
+        double a = line[1][Y] - line[0][Y];
+        double b = line[0][X] - line[1][X];
+        double c = -a * line[0][X] - b * line[0][Y];
         double normal = Math.sqrt(sqr(a) + sqr(b));
         return  (a * point[0] + b * point[1] + c) / normal;
     }
